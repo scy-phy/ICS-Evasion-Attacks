@@ -1,0 +1,3 @@
+We are not allowed to publish WADI data. Can be requested on itrust singapore website: https://itrust.sutd.edu.sg/itrust-labs_datasets/
+
+Then ground truth should be added to the test dataset with column 'ATT_FLAG', data containing attacks should be extracted in separate .csv files as in BATADAL folder 
