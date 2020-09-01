@@ -13,7 +13,7 @@ Constrained Concealment Attacks on Reconstruction-based Anomaly Detectors in Ind
 
   * `Data` contains the dataset used for the experiment. *Note* to obtain WADI data please refer to [iTrust](https://itrust.sutd.edu.sg/)
 
-  * `Evaluation` contains the script to evaluate the attack efficacy
+  * `Evaluation` contains the scripts to evaluate the attack efficacy in different constraints scenarios
 
 ### Requirements
 
