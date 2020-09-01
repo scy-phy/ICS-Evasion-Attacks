@@ -23,6 +23,7 @@ import os
 import time
 import glob
 
+import json
 
 # ### Autoencoder classes
 # classes

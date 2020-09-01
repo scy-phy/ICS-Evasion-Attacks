@@ -18,8 +18,9 @@ import numpy as np
 import pandas as pd
 import pickle
 import os
+import json
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+#os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 # given a error vector we sort it from the highest value to the lowest and we eliminate all the elements below the theta treshold
 
@@ -244,18 +245,26 @@ def change_vector_label(row_index, att_data, solutions_found, changed_variables)
 
 """
 Select wich dataset are you considering
-(we are not allowed to publish WADI data, please request them itrust Singapore website)
+(we are not allowed to publish WADI data, please request them from itrust Singapore website)
 """
-dataset = 'BATADAL' #'WADI'
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('-d', '--data', nargs='+', type=str, default='BATADAL')
+args = parser.parse_args()
+print(args.data)
+
+dataset = args.data[0]
 data_folder = '../../Data/'+dataset
 
 if dataset == 'BATADAL':
-    attack_ids = range(1,15)
+    attack_ids = range(6,15)
     att_data = pd.read_csv(data_folder+'/attack_1_from_test_dataset.csv')
     xset = [col for col in att_data.columns if col not in [
         'Unnamed: 0', 'DATETIME', 'ATT_FLAG']]
     budget = 200
     patience = 15
+    constrained_variables = [2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30, 35, 40]
     
 if dataset == 'WADI':
     attack_ids = [1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
@@ -264,6 +273,7 @@ if dataset == 'WADI':
         'Row', 'DATETIME','ATT_FLAG', '2_MV_001_STATUS', '2_LT_001_PV', '2_MV_002_STATUS']]
     budget = 300
     patience = 40
+    constrained_variables = [2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 30, 40, 50, 60, 70, 80]
 
 yset = ['ATT_FLAG']
 autoencoder = load_AEED("../../Attacked_Model/"+dataset+"/autoencoder.json", "../../Attacked_Model/"+dataset+"/autoencoder.h5")
@@ -278,7 +288,7 @@ for att_number in attack_ids:
         variables = eval(f)
     except:
         variables = {}
-    for max_concealable_variables in [2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20]:
+    for max_concealable_variables in constrained_variables:
         debug = False
         changed_columns = {}
         changed_variables = {}
@@ -342,7 +352,7 @@ for att_number in attack_ids:
             f.write('STD: ' + str(np.std(times)))
             f.write('\n')
         list = binary_dataframe.sum().sort_values(ascending=False).head(
-            max_concealable_variables).keys().to_list()
+            max_concealable_variables).keys().tolist()
         variables[max_concealable_variables] = list
         variables = dict(sorted(variables.items()))
         print(variables)

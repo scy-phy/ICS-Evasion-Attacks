@@ -18,7 +18,6 @@ import pandas as pd
 import simplejson as json
 import pickle
 
-tf.logging.set_verbosity(tf.logging.ERROR)
 
 class Adversarial_AE:
     
@@ -57,17 +56,18 @@ class Adversarial_AE:
             monitor='val_loss', patience=3, verbose=0,  min_delta=1e-4, mode='auto')
         lr_reduced = ReduceLROnPlateau(
             monitor='val_loss', factor=0.5, patience=1, verbose=0, min_delta=1e-4, mode='min')
+        print(self.generator.summary())
         self.generator.fit(x_ben_train, x_ben_train,
                             epochs=500,
                             batch_size=64,
                             shuffle=False,
                             callbacks=[earlyStopping, lr_reduced],
-                            verbose=0,
+                            verbose=2,
                             validation_data=(x_ben_test, x_ben_test))
         
 
     def fix_sample(self, gen_examples, dataset):
-         """
+        """
         Adjust discrete actuators values to the nearest allowed value
         Parameters
         ----------
@@ -81,14 +81,17 @@ class Adversarial_AE:
             adversarial examples with distrete values adjusted 
         """
         if dataset == 'BATADAL':
+            list_pump_status = list(gen_examples.filter(
+                regex='STATUS_PU[0-9]|STATUS_V[0-9]').columns)
+            
             for j, _ in gen_examples.iterrows():
-                for i in list(gen_examples.columns[31:43]):
+                for i in list_pump_status:  #list(gen_examples.columns[31:43]):
                     if gen_examples.at[j, i] > 0.5:
                         gen_examples.at[j, i] = 1
                     else:
                         gen_examples.at[j, i] = 0
-                        gen_examples.at[j, gen_examples.columns[(
-                            gen_examples.columns.get_loc(i)) - 12]] = 0
+                        gen_examples.at[j, i.replace('STATUS', 'FLOW')] = 0 #gen_examples.columns[(
+                           # gen_examples.columns.get_loc(i)) - 12]] = 0
 
         if dataset == 'WADI':
             list_pump_status = list(gen_examples.filter(
@@ -164,6 +167,9 @@ class Adversarial_AE:
             adversarial examples with the allowed concealed sensor readings
         """
         for j in range(0, len(gen_examples)):
+            #print(constraints)
+            #print(original_examples.iloc[j])
             for col in constraints:
                 original_examples.at[j, col] = gen_examples.at[j, col]
+            #print(original_examples.iloc[j])
         return original_examples.values

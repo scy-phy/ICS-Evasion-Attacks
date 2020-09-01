@@ -228,7 +228,14 @@ def change_vector_label(row_index, att_data, solutions_found):
 Select wich dataset are you considering
 (we are not allowed to publish WADI data, please request them itrust Singapore website)
 """
-dataset = 'BATADAL' #'WADI'
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('-d', '--data', nargs='+', type=str, default='BATADAL')
+args = parser.parse_args()
+print(args.data)
+
+dataset = args.data[0]
 data_folder = '../../Data/'+dataset
 
 if dataset == 'BATADAL':
@@ -238,6 +245,7 @@ if dataset == 'BATADAL':
         'Unnamed: 0', 'DATETIME', 'ATT_FLAG']]
     budget = 200
     patience = 15
+    
     
 if dataset == 'WADI':
     attack_ids = [1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]

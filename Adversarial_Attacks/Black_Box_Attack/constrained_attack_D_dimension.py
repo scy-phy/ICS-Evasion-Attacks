@@ -24,8 +24,16 @@ from adversarial_AE import Adversarial_AE
 Select wich dataset are you considering
 (we are not allowed to publish WADI data, please request them itrust Singapore website)
 """
-dataset = 'BATADAL'  # 'WADI'
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument('-d', '--data', nargs='+', type=str, default=['BATADAL'])
+parser.add_argument('-p', '--pretrain', nargs='+', type=bool, default=False)
+args = parser.parse_args()
+print(args.data)
+
+dataset = args.data[0]
 data_folder = '../../Data/'+dataset
+pretrain_generator =  args.pretrain
 
 if dataset == 'BATADAL':
     attack_ids = range(1, 15)
@@ -45,8 +53,8 @@ if dataset == 'WADI':
 yset = ['ATT_FLAG']
 
 if __name__ == '__main__':
-    pretrain_generator = True  # False if the generator is already trained
-
+    
+    #seeds for random sampling of data
     for seed in [0, 1, 12, 123, 1234, 12345, 123456, 1234567, 12345678, 123456789]:
         
         # 25 means train the adversarial network with 25% of data

@@ -1,0 +1,1 @@
+{DMA_1:['PLC_1', 'PLC_2'], DMA_2:['PLC_6'], DMA_3:['PLC_3', 'PLC_4'], DMA_4:['PLC_5', 'PLC_8', 'PLC_9'], DMA_5:['PLC_5','PLC_7']}

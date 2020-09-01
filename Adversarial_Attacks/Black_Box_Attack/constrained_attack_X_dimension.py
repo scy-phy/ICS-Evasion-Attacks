@@ -35,14 +35,22 @@ Set options for computation
         True: if you would like to perform the black box constrained attack
         False: perform unconstrained black box attack
     fixed_constraints: bool
-       True: perform the experiment of a defined set of constraints that are store in a dictionary
+       True: perform the experiment of a defined set of constraints that are stored in a dictionary
 """
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument('-d', '--data', nargs='+', type=str, default=['BATADAL'])
+parser.add_argument('-p', '--pretrain', nargs='+', type=bool, default=False)
+parser.add_argument('-f', '--fixed_constraints', nargs='+', type=bool, default=True)
+args = parser.parse_args()
+print(args.data)
 
-dataset = 'BATADAL'  # 'WADI'
+dataset = args.data[0]
 data_folder = '../../Data/'+dataset
-pretrain_generator = False 
+
+pretrain_generator = args.pretrain 
+fixed_constraints = args.fixed_constraints
 conceal_up_to_n = True
-fixed_constraints = True
 
 if dataset == 'BATADAL':
     attack_ids = range(1, 15)
@@ -51,6 +59,7 @@ if dataset == 'BATADAL':
         'Unnamed: 0', 'DATETIME', 'ATT_FLAG']]
     feature_dims = 43
     hide_layers = 128
+    constrained_variables = [2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30, 35, 40]
 
 if dataset == 'WADI':
     attack_ids = [1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
@@ -59,9 +68,9 @@ if dataset == 'WADI':
         'Row', 'DATETIME', 'ATT_FLAG', '2_MV_001_STATUS', '2_LT_001_PV', '2_MV_002_STATUS']]
     feature_dims = 82
     hide_layers = 256
+    constrained_variables = [2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 30, 40, 50, 60, 70, 80]
+    
 yset = ['ATT_FLAG']
-
-
 
 if __name__ == '__main__':
     advAE = Adversarial_AE(feature_dims, hide_layers)
@@ -77,12 +86,17 @@ if __name__ == '__main__':
 
     for i in attack_ids:
         print('\nAttack: ' +str(i))
-        variables = {}
+        try:
+            f = open("./constraints/"+dataset+"/constraint_variables_attack_" +str(i)+"_AE.txt", 'r').read()
+            variables = eval(f)
+        except:
+            variables = {}
+        
         if fixed_constraints:
             f = open("./constraints/"+dataset+"/constraint_variables_attack_" +
                     str(i)+"_AE.txt", 'r').read()
             variables = eval(f)
-        for n in [2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20]:
+        for n in constrained_variables:
             if fixed_constraints:
                 constraints = variables[n]
                 print('Imposed constraint:' + str(constraints))
@@ -116,7 +130,7 @@ if __name__ == '__main__':
                     'results/'+dataset+'/AE_max_concealable_var_'+str(n)+'/new_advAE_attack_'+str(i)+'_from_test_dataset_max'+str(n)+'.csv')
             if conceal_up_to_n and not(fixed_constraints):
                 lst = binary_dataframe.sum().sort_values(
-                    ascending=False).head(n).keys().to_list()
+                    ascending=False).head(n).keys().tolist()
                 variables[n] = lst
                 print('Extracted Constraint for attack '+str(att_number)+' n = '+ str(n) + ':' + str(lst))
         if conceal_up_to_n and not(fixed_constraints):

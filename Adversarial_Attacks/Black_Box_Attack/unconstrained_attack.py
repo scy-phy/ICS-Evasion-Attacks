@@ -30,7 +30,17 @@ Set options for computation
     measure_time : bool
        True: measure the required computational time
 """
-dataset = 'BATADAL'  # 'WADI'
+
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('-d', '--data', nargs='+', type=str, default=['BATADAL'])
+parser.add_argument('-p', '--pretrain', nargs='+', type=bool, default=False)
+parser.add_argument('-t', '--time', nargs='+', type=bool, default=False)
+args = parser.parse_args()
+print(args.data)
+
+dataset = args.data[0]
 data_folder = '../../Data/'+dataset
 
 if dataset == 'BATADAL':
@@ -50,8 +60,8 @@ if dataset == 'WADI':
     hide_layers = 256
 yset = ['ATT_FLAG']
 
-pretrain_generator = False
-measure_time = False
+pretrain_generator = args.pretrain
+measure_time = args.time
 if __name__ == '__main__':
     advAE = Adversarial_AE(feature_dims, hide_layers)
     ben_data = pd.read_csv(data_folder+'/train_dataset.csv')

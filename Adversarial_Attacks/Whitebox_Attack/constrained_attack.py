@@ -19,7 +19,6 @@ import pandas as pd
 import pickle
 import os
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 def sort_temp_and_drop(row_index, temp):
     """
@@ -101,11 +100,9 @@ def scale_input_and_detect(index, X):
 
     X = pd.concat([X, error_df], axis=1)
     X = X.iloc[X['error'].idxmin()]
-    # print(X)
     error = X['error']
     X = X.drop('error')
     X = pd.DataFrame([X])
-    # print(X)
     return X, error
 
 
@@ -129,7 +126,7 @@ def compute_mutation_factor(att_data, newBest):
     print('changed tuples: ' + str(len(changed_columns)))
 
 
-def choose_column(row_index, prev_col_name, changed_variables, max_concealable_variables):
+def choose_column(row_index, prev_col_name, changed_variables, max_concealable_variables): 
     """
     select the sensor value to be manipulated depending on the constrints
 
@@ -153,9 +150,6 @@ def choose_column(row_index, prev_col_name, changed_variables, max_concealable_v
     if(prev_col_name == None):
             return changed_variables[row_index][0]
     return changed_variables[row_index][(changed_variables[row_index].index(prev_col_name)+1) % max_concealable_variables]
-
-# this is the main algorithm, it actually transforms the input row trying to change its label.
-# second attempt, updates after 5 changes on the same variable the ranking and optimizes this variable
 
 def change_vector_label(row_index, att_data, solutions_found, changed_variables, variables):
     """
@@ -192,8 +186,7 @@ def change_vector_label(row_index, att_data, solutions_found, changed_variables,
     optimized = False
     changed_variables[row_index] = variables[max_concealable_variables]
     while changes < budget and (changes - last_optimization) < patience and not(found_solution):
-        col_name = choose_column(row_index, temp, prev_col_name, num_changes_without_optimizations,
-                                 changed_variables, max_concealable_variables)
+        col_name = choose_column(row_index, prev_col_name, changed_variables, max_concealable_variables)
         prev_col_name = col_name
         if debug:
             print('______________________________')
@@ -251,7 +244,15 @@ def change_vector_label(row_index, att_data, solutions_found, changed_variables,
 Select wich dataset are you considering
 (we are not allowed to publish WADI data, please request them itrust Singapore website)
 """
-dataset = 'BATADAL' #'WADI'
+
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('-d', '--data', nargs='+', type=str, default=['BATADAL'])
+args = parser.parse_args()
+print(args.data)
+
+dataset = args.data[0]
 data_folder = '../../Data/'+dataset
 
 if dataset == 'BATADAL':
@@ -261,6 +262,7 @@ if dataset == 'BATADAL':
         'Unnamed: 0', 'DATETIME', 'ATT_FLAG']]
     budget = 200
     patience = 15
+    constrained_variables = [2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30, 35, 40]
     
 if dataset == 'WADI':
     attack_ids = [1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
@@ -269,6 +271,7 @@ if dataset == 'WADI':
         'Row', 'DATETIME','ATT_FLAG', '2_MV_001_STATUS', '2_LT_001_PV', '2_MV_002_STATUS']]
     budget = 300
     patience = 40
+    constrained_variables = [2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 30, 40, 50, 60, 70, 80]
 
 yset = ['ATT_FLAG']
 autoencoder = load_AEED("../../Attacked_Model/"+dataset+"/autoencoder.json", "../../Attacked_Model/"+dataset+"/autoencoder.h5")
@@ -281,7 +284,7 @@ for att_number in attack_ids:
     variables = {}
     f = open("./constraints/"+dataset+"/constraint_variables_attack_"+str(att_number)+".txt", 'r').read()
     variables = eval(f)
-    for max_concealable_variables in [2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20]:
+    for max_concealable_variables in constrained_variables:
         debug = False
         changed_columns = {}
         changed_variables = {}
