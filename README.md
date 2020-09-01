@@ -1,26 +1,26 @@
 Constrained Concealment Attacks on Reconstruction-based Anomaly Detectors in Industrial Control Systems
 =======
  
-## Implementation of iterative and learning based concealment attacks
+## Implementation of iterative and learning-based concealment attacks
   
 ### Description
   
  This repository is organized as follows:
 
-  * `Attacked_Model` contains the Autoencoder based detector trained on BATADAL and WADI data. THe code was forked from [AutoEncoders for Event Detection (AEED)](https://github.com/rtaormina/aeed) and complemented with LST and CNN defenses. Please refer to the original repository to train your defense model.
+  * `Attacked_Model` contains the Autoencoder based detector trained on BATADAL and WADI data. The code was forked from [AutoEncoders for Event Detection (AEED)](https://github.com/rtaormina/aeed) and complemented with LST and CNN defenses. Please refer to the original repository to train your defense model.
 
-  * `Adversarial_Attacks` contains the iterative and learning based concealment attacks implementations used for the evaluation of our manuscript.
+  * `Adversarial_Attacks` contains the iterative and learning-based concealment attacks implementations used for the evaluation of our manuscript.
 
   * `Data` contains the dataset used for the experiment. *Note* to obtain WADI data please refer to [iTrust](https://itrust.sutd.edu.sg/)
 
-  * `Evaluation` contians the script to evaluate the attack efficacy
+  * `Evaluation` contains the script to evaluate the attack efficacy
 
 ### Requirements
 
-In order to execute attacks and evaluate them `Python 3`, `Keras`, `Pandas`, `Numpy` are required.
+To execute attacks and evaluate them `Python 3`, `Keras`, `Pandas`, `Numpy` are required.
 
 ### Usage
-Command line options available: 
+Command-line options available: 
 
 `-d 'dataset'`data to be used for the attacks, default=BATADAL
 
@@ -52,7 +52,7 @@ Usage:
 
 ##### constrained_attack_PLC.py  
 
-It performs the topology-based scenario constrained attack, and applies the constaints according to the PLC controlled by the attacker. 
+It performs the topology-based scenario constrained attack, and applies the constraints according to the PLC controlled by the attacker. 
 
 Optional Parameters: 
 
@@ -98,7 +98,7 @@ Partially constrained attack best-case constraints
 
 Optional Parameters:
 
-* `-f 'Bool'`, default=True. If `False` extract the constraints for the best-case scenario constrained attack.(All saved contraints are available in the repository)
+* `-f 'Bool'`, default=True. If `False` extract the constraints for the best-case scenario constrained attack. (All saved constraints are available in the repository)
 
 Usage:
 
@@ -110,7 +110,7 @@ Partially constrained attack topology-based constraints script, X Dimension, PLC
 
 Optional Parameters:
 
-* `-f 'Bool'`, default=True. If `False` extract the constraints for the best-case scenario constrained attack.(All saved contraints are available in the repository)
+* `-f 'Bool'`, default=True. If `False` extract the constraints for the best-case scenario constrained attack. (All saved constraints are available in the repository)
 
 
 Usage: 
@@ -123,7 +123,7 @@ Fully constrained attack script, topology-based constraints, X Dimension, PLC co
 
 Optional Parameters:
 
-* `-f 'Bool'`, default=True. If `False` extract the constraints for the best-case scenario constrained attack.(All saved contraints are available in the repository)
+* `-f 'Bool'`, default=True. If `False` extract the constraints for the best-case scenario constrained attack. (All saved constraints are available in the repository)
 
 Usage:
 
@@ -133,7 +133,7 @@ Usage:
 
 ##### constrained_attack_D_dimension.py               
 
-constrained attack, D dimension
+Constrained attack, D dimension
 
 Usage:
 
