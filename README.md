@@ -108,11 +108,6 @@ Usage:
 
 Partially constrained attack topology-based constraints script, X Dimension, PLC constraints 
 
-Optional Parameters:
-
-* `-f 'Bool'`, default=True. If `False` extract the constraints for the best-case scenario constrained attack. (All saved constraints are available in the repository)
-
-
 Usage: 
 
 `python constrained_attack_X_dimension_PLC.py -d BATADAL -p False`
@@ -121,13 +116,9 @@ Usage:
 ##### constrained_AE_attack_X_dimension_PLC.py        
 Fully constrained attack script, topology-based constraints, X Dimension, PLC constraints 
 
-Optional Parameters:
-
-* `-f 'Bool'`, default=True. If `False` extract the constraints for the best-case scenario constrained attack. (All saved constraints are available in the repository)
-
 Usage:
 
-`python constrained_AE_attack_X_dimension_PLC.py -d BATADAL -p False -f True`
+`python constrained_AE_attack_X_dimension_PLC.py -d BATADAL -p False`
 
 
 
