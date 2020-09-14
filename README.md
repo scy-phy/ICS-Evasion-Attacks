@@ -13,7 +13,7 @@ Constrained Concealment Attacks on Reconstruction-based Anomaly Detectors in Ind
 
   * `Data` contains the dataset used for the experiment. *Note* to obtain WADI data please refer to [iTrust](https://itrust.sutd.edu.sg/)
 
-  * `Evaluation` contains the python notebooks to evaluate the attack efficacy in different constraints scenarios. By running each notebook you reporduce the results found in the paper. To open jupyter run the following commad `conda activate && jupyter notebook` and then open the .ipynb files in Evauation folder
+  * `Evaluation` contains the python notebooks to evaluate the attack efficacy in different constraints scenarios. By running each notebook you reporduce the results found in the paper and the relative plots (i.e. Figures 2 and 3 in the manuscript). To open jupyter run the following commad `conda activate && jupyter notebook` and then open the .ipynb files in Evauation folder
 
 ### Requirements
 
