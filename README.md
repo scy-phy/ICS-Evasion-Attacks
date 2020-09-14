@@ -137,7 +137,7 @@ Constrained attack, D dimension
 
 Usage:
 
-`python constrained_AE_attack_X_dimension_PLC.py -d BATADAL -p False`
+`python constrained_attack_D_dimension.py -d BATADAL -p False`
 
 
 #### Replay_Attack folder:
