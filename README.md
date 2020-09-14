@@ -13,11 +13,11 @@ Constrained Concealment Attacks on Reconstruction-based Anomaly Detectors in Ind
 
   * `Data` contains the dataset used for the experiment. *Note* to obtain WADI data please refer to [iTrust](https://itrust.sutd.edu.sg/)
 
-  * `Evaluation` contains the scripts to evaluate the attack efficacy in different constraints scenarios
+  * `Evaluation` contains the python notebooks to evaluate the attack efficacy in different constraints scenarios. By running each notebook you reporduce the results found in the paper. To open and run the notebooks run the following commad `conda activate && jupyter notebook`
 
 ### Requirements
 
-To execute attacks and evaluate them `Python 3`, `Keras`, `Pandas`, `Numpy` are required.
+To execute attacks and evaluate them `Python 3`, `Keras`, `Pandas`, `Numpy`,  `Jupyter` are required. Installation through `conda` is suggested.
 
 ### Usage
 Command-line options available: 
@@ -70,7 +70,7 @@ util to automate and parallelize topology-based scenario constrained attacks.
 
 Usage:
 
-`python launcher.py`
+`python launcher.py -d BATADAL`
 
 
 #### Black_Box_Attack folder:
