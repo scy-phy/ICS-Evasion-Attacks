@@ -31,9 +31,6 @@ Set options for computation
         if the adversarial network needs to be pretrained. (if False, the model should be already stored accordingly)
     measure_time : bool
        True: measure the required computational time
-    conceal_up_to_n: bool
-        True: if you would like to perform the black box constrained attack
-        False: perform unconstrained black box attack
 """
 import argparse
 parser = argparse.ArgumentParser()

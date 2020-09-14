@@ -31,21 +31,17 @@ Set options for computation
         if the adversarial network needs to be pretrained. (if False, the model should be already stored accordingly)
     measure_time : bool
        True: measure the required computational time
-    fixed_constraints: bool
-       True: perform the experiment on a defined set of constraints that are stored in a dictionary
 """
 import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('-d', '--data', nargs='+', type=str, default=['BATADAL'])
 parser.add_argument('-p', '--pretrain', nargs='+', type=bool, default=False)
-parser.add_argument('-f', '--fixed_constraints', nargs='+', type=bool, default=True)
 args = parser.parse_args()
 print(args.data)
 
 dataset = args.data[0]
 data_folder = '../../Data/'+dataset
 pretrain_generator = args.pretrain
-fixed_constraints = args.fixed_constraints
 
 if dataset == 'BATADAL':
     attack_ids = range(1, 15)
@@ -82,13 +78,11 @@ if __name__ == '__main__':
     for i in attack_ids:
         print('\nAttack: ' +str(i))
         variables = {}
-        if fixed_constraints:
-            f = open("./constraints/"+dataset+"/constraint_PLC.txt", 'r').read()
-            variables = eval(f)
-        for n in plcs:
-            if fixed_constraints:
-                constraints = variables[n]
-                print('Imposed constraint:' + str(constraints))
+        f = open("./constraints/"+dataset+"/constraint_PLC.txt", 'r').read()
+        variables = eval(f)
+        for plc in plcs:
+            constraints = variables[plc]
+            print('Imposed constraint:' + str(constraints))
             debug = False
             att_number = i
             att_data = pd.read_csv(data_folder+'/attack_' +
@@ -102,27 +96,13 @@ if __name__ == '__main__':
                 advAE.attacker_scaler.transform(X))
             gen_examples = advAE.fix_sample(pd.DataFrame(
                 columns=xset, data=advAE.attacker_scaler.inverse_transform(gen_examples)),dataset)
-            if not(fixed_constraints):
-                gen_examples, binary_dataframe = advAE.decide_concealment(n, binary_dataframe, pd.DataFrame(columns=xset, data=advAE.attacker_scaler.transform(gen_examples)),
-                                                                        pd.DataFrame(columns=xset, data=advAE.attacker_scaler.transform(X)), xset)
-                gen_examples = advAE.attacker_scaler.inverse_transform(gen_examples)
-            else:
-                gen_examples = advAE.conceal_fixed(constraints, pd.DataFrame(columns=xset, data=advAE.attacker_scaler.transform(gen_examples)),
+            
+            gen_examples = advAE.conceal_fixed(constraints, pd.DataFrame(columns=xset, data=advAE.attacker_scaler.transform(gen_examples)),
                                                 pd.DataFrame(columns=xset, data=advAE.attacker_scaler.transform(X)))
-                gen_examples = advAE.attacker_scaler.inverse_transform(gen_examples)
+            gen_examples = advAE.attacker_scaler.inverse_transform(gen_examples)
 
-            if fixed_constraints:
-                if not os.path.exists('results/'+dataset+'/AE_PLC_constraint/'):
+            if not os.path.exists('results/'+dataset+'/AE_PLC_constraint/'):
                     os.makedirs(
                          'results/'+dataset+'/AE_PLC_constraint/')
-                pd.DataFrame(columns=xset, data=gen_examples).to_csv(
+            pd.DataFrame(columns=xset, data=gen_examples).to_csv(
                     'results/'+dataset+'/AE_PLC_constraint/new_advAE_attack_'+str(i)+'_from_test_dataset_'+n+'.csv')
-            if not(fixed_constraints):
-                lst = binary_dataframe.sum().sort_values(
-                    ascending=False).head(n).keys().to_list()
-                variables[n] = lst
-                print('Extracted Constraint for attack '+str(att_number)+' n = '+ str(n) + ':' + str(lst))
-        if not(fixed_constraints):
-            print('Saving constraints for attack ' + str(att_number)+'\n')
-            with open("./constraints/"+dataset+"/constraint_variables_attack_"+str(att_number)+"_AE.txt", 'w') as f:
-                f.write(str(variables))
