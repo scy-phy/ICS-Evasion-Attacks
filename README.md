@@ -1,26 +1,26 @@
 Constrained Concealment Attacks on Reconstruction-based Anomaly Detectors in Industrial Control Systems
 =======
  
-## Implementation of iterative and learning based concealment attacks
+## Implementation of iterative and learning-based concealment attacks
   
 ### Description
   
  This repository is organized as follows:
 
-  * `Attacked_Model` contains the Autoencoder based detector trained on BATADAL and WADI data. THe code was forked from [AutoEncoders for Event Detection (AEED)](https://github.com/rtaormina/aeed) and complemented with LST and CNN defenses. Please refer to the original repository to train your defense model.
+  * `Attacked_Model` contains the Autoencoder based detector trained on BATADAL and WADI data. The code was forked from [AutoEncoders for Event Detection (AEED)](https://github.com/rtaormina/aeed) and complemented with LST and CNN defenses. Please refer to the original repository to train your defense model.
 
-  * `Adversarial_Attacks` contains the iterative and learning based concealment attacks implementations used for the evaluation of our manuscript.
+  * `Adversarial_Attacks` contains the iterative and learning-based concealment attacks implementations used for the evaluation of our manuscript.
 
   * `Data` contains the dataset used for the experiment. *Note* to obtain WADI data please refer to [iTrust](https://itrust.sutd.edu.sg/)
 
-  * `Evaluation` contians the script to evaluate the attack efficacy
+  * `Evaluation` contains the python notebooks to evaluate the attack efficacy in different constraints scenarios. By running each notebook you reporduce the results found in the paper. To open and run the notebooks run the following commad `conda activate && jupyter notebook`
 
 ### Requirements
 
-In order to execute attacks and evaluate them `Python 3`, `Keras`, `Pandas`, `Numpy` are required.
+To execute attacks and evaluate them `Python 3`, `Keras`, `Pandas`, `Numpy`,  `Jupyter` are required. Installation through `conda` is suggested.
 
 ### Usage
-Command line options available: 
+Command-line options available: 
 
 `-d 'dataset'`data to be used for the attacks, default=BATADAL
 
@@ -52,7 +52,7 @@ Usage:
 
 ##### constrained_attack_PLC.py  
 
-It performs the topology-based scenario constrained attack, and applies the constaints according to the PLC controlled by the attacker. 
+It performs the topology-based scenario constrained attack, and applies the constraints according to the PLC controlled by the attacker. 
 
 Optional Parameters: 
 
@@ -70,7 +70,7 @@ util to automate and parallelize topology-based scenario constrained attacks.
 
 Usage:
 
-`python launcher.py`
+`python launcher.py -d BATADAL`
 
 
 #### Black_Box_Attack folder:
@@ -98,7 +98,7 @@ Partially constrained attack best-case constraints
 
 Optional Parameters:
 
-* `-f 'Bool'`, default=True. If `False` extract the constraints for the best-case scenario constrained attack.(All saved contraints are available in the repository)
+* `-f 'Bool'`, default=True. If `False` extract the constraints for the best-case scenario constrained attack. (All saved constraints are available in the repository)
 
 Usage:
 
@@ -108,11 +108,6 @@ Usage:
 
 Partially constrained attack topology-based constraints script, X Dimension, PLC constraints 
 
-Optional Parameters:
-
-* `-f 'Bool'`, default=True. If `False` extract the constraints for the best-case scenario constrained attack.(All saved contraints are available in the repository)
-
-
 Usage: 
 
 `python constrained_attack_X_dimension_PLC.py -d BATADAL -p False`
@@ -121,23 +116,19 @@ Usage:
 ##### constrained_AE_attack_X_dimension_PLC.py        
 Fully constrained attack script, topology-based constraints, X Dimension, PLC constraints 
 
-Optional Parameters:
-
-* `-f 'Bool'`, default=True. If `False` extract the constraints for the best-case scenario constrained attack.(All saved contraints are available in the repository)
-
 Usage:
 
-`python constrained_AE_attack_X_dimension_PLC.py -d BATADAL -p False -f True`
+`python constrained_AE_attack_X_dimension_PLC.py -d BATADAL -p False`
 
 
 
 ##### constrained_attack_D_dimension.py               
 
-constrained attack, D dimension
+Constrained attack, D dimension
 
 Usage:
 
-`python constrained_AE_attack_X_dimension_PLC.py -d BATADAL -p False`
+`python constrained_attack_D_dimension.py -d BATADAL -p False`
 
 
 #### Replay_Attack folder:
