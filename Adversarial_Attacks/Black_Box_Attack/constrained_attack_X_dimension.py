@@ -19,6 +19,7 @@ import numpy as np
 import pandas as pd
 import simplejson as json
 import pickle
+from str2bool import str2bool
 
 from adversarial_AE import Adversarial_AE
 """
@@ -40,16 +41,16 @@ Set options for computation
 import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('-d', '--data', nargs='+', type=str, default=['BATADAL'])
-parser.add_argument('-p', '--pretrain', nargs='+', type=bool, default=False)
-parser.add_argument('-f', '--fixed_constraints', nargs='+', type=bool, default=True)
+parser.add_argument('-p', '--pretrain', type=str2bool, default = False)
+parser.add_argument('-f', '--fixed_constraints', type=str2bool, default=True)
 args = parser.parse_args()
-print(args.data)
+print(args)
 
 dataset = args.data[0]
 data_folder = '../../Data/'+dataset
 
-pretrain_generator = args.pretrain 
-fixed_constraints = args.fixed_constraints
+pretrain_generator = args.pretrain[0]
+fixed_constraints = args.fixed_constraints[0]
 conceal_up_to_n = True
 
 if dataset == 'BATADAL':

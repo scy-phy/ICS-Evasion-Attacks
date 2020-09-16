@@ -17,6 +17,7 @@ import numpy as np
 import pandas as pd
 import simplejson as json
 import pickle
+from str2bool import str2bool
 
 from adversarial_AE import Adversarial_AE
 
@@ -27,13 +28,13 @@ Select wich dataset are you considering
 import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('-d', '--data', nargs='+', type=str, default=['BATADAL'])
-parser.add_argument('-p', '--pretrain', nargs='+', type=bool, default=False)
+parser.add_argument('-p', '--pretrain', nargs='+', type=str2bool, default=False)
 args = parser.parse_args()
 print(args.data)
 
 dataset = args.data[0]
 data_folder = '../../Data/'+dataset
-pretrain_generator =  args.pretrain
+pretrain_generator =  args.pretrain[0]
 
 if dataset == 'BATADAL':
     attack_ids = range(1, 15)

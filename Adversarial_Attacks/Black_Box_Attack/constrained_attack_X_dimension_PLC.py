@@ -19,6 +19,7 @@ import numpy as np
 import pandas as pd
 import simplejson as json
 import pickle
+from str2bool import str2bool
 
 from adversarial_AE import Adversarial_AE
 """
@@ -35,13 +36,13 @@ Set options for computation
 import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('-d', '--data', nargs='+', type=str, default=['BATADAL'])
-parser.add_argument('-p', '--pretrain', nargs='+', type=bool, default=False)
+parser.add_argument('-p', '--pretrain', nargs='+', type=str2bool, default=False)
 args = parser.parse_args()
-print(args.data)
+print(args)
 
 dataset = args.data[0]
 data_folder = '../../Data/'+dataset
-pretrain_generator = args.pretrain
+pretrain_generator = args.pretrain[0]
 
 if dataset == 'BATADAL':
     attack_ids = range(1, 15)
@@ -105,4 +106,4 @@ if __name__ == '__main__':
                     os.makedirs(
                          'results/'+dataset+'/AE_PLC_constraint/')
             pd.DataFrame(columns=xset, data=gen_examples).to_csv(
-                    'results/'+dataset+'/AE_PLC_constraint/new_advAE_attack_'+str(i)+'_from_test_dataset_'+n+'.csv')
+                    'results/'+dataset+'/AE_PLC_constraint/new_advAE_attack_'+str(i)+'_from_test_dataset_'+plc+'.csv')
