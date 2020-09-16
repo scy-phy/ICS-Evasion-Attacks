@@ -35,14 +35,14 @@ Set options for computation
 """
 import argparse
 parser = argparse.ArgumentParser()
-parser.add_argument('-d', '--data', nargs='+', type=str, default=['BATADAL'])
-parser.add_argument('-p', '--pretrain', nargs='+', type=str2bool, default=False)
+parser.add_argument('-d', '--data', type=str, default='BATADAL')
+parser.add_argument('-p', '--pretrain', type=str2bool, default=False)
 args = parser.parse_args()
 print(args)
 
-dataset = args.data[0]
+dataset = args.data
 data_folder = '../../Data/'+dataset
-pretrain_generator = args.pretrain[0]
+pretrain_generator = args.pretrain
 
 if dataset == 'BATADAL':
     attack_ids = range(1, 15)

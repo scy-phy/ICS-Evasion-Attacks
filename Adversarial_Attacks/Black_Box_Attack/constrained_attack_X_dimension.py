@@ -40,17 +40,17 @@ Set options for computation
 """
 import argparse
 parser = argparse.ArgumentParser()
-parser.add_argument('-d', '--data', nargs='+', type=str, default=['BATADAL'])
+parser.add_argument('-d', '--data', type=str, default='BATADAL')
 parser.add_argument('-p', '--pretrain', type=str2bool, default = False)
 parser.add_argument('-f', '--fixed_constraints', type=str2bool, default=True)
 args = parser.parse_args()
 print(args)
 
-dataset = args.data[0]
+dataset = args.data
 data_folder = '../../Data/'+dataset
 
-pretrain_generator = args.pretrain[0]
-fixed_constraints = args.fixed_constraints[0]
+pretrain_generator = args.pretrain
+fixed_constraints = args.fixed_constraints
 conceal_up_to_n = True
 
 if dataset == 'BATADAL':

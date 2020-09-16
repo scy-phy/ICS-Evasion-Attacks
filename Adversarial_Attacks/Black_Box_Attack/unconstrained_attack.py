@@ -35,13 +35,13 @@ Set options for computation
 import argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-d', '--data', nargs='+', type=str, default=['BATADAL'])
-parser.add_argument('-p', '--pretrain', nargs='+', type=str2bool, default=False)
-parser.add_argument('-t', '--time', nargs='+', type=str2bool, default=False)
+parser.add_argument('-d', '--data', type=str, default='BATADAL')
+parser.add_argument('-p', '--pretrain', type=str2bool, default=False)
+parser.add_argument('-t', '--time', type=str2bool, default=False)
 args = parser.parse_args()
-print(args.data)
+print(args)
 
-dataset = args.data[0]
+dataset = args.data
 data_folder = '../../Data/'+dataset
 
 if dataset == 'BATADAL':
@@ -61,8 +61,8 @@ if dataset == 'WADI':
     hide_layers = 256
 yset = ['ATT_FLAG']
 
-pretrain_generator = args.pretrain[0]
-measure_time = args.time[0]
+pretrain_generator = args.pretrain
+measure_time = args.time
 if __name__ == '__main__':
     advAE = Adversarial_AE(feature_dims, hide_layers)
     ben_data = pd.read_csv(data_folder+'/train_dataset.csv')
