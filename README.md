@@ -1,7 +1,24 @@
 Constrained Concealment Attacks on Reconstruction-based Anomaly Detectors in Industrial Control Systems
 =======
+
+## In proceedings of the the Annual Computer Security Applications Conference (ACSAC)
+
+When using this code from this repository please cite our work as follows:
+```
+@InProceedings{erba2020concealment,
+  title={Constrained Concealment Attacks against Reconstruction-based Anomaly Detectors 
+  in Industrial Control Systems},
+  author={Erba, Alessandro and Taormina, Riccardo and Galelli, Stefano and
+   Pogliani, Marcello and Carminati, Michele and Zanero, Stefano and
+   Tippenhauer, Nils Ole},
+  booktitle={Proceedings of the Annual Computer Security Applications Conference 
+  (ACSAC)},
+  year={2020},
+  doi = {10.1145/3427228.3427660}
+}
+``` 
  
-## Implementation of iterative and learning-based concealment attacks
+## Implementation of iterative and learning-based concealment attacks, artifact evaluated Functional by the ACSAC 2020 artifact evaluation committee
   
 ### Description
   
